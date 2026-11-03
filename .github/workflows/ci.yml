@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches: [main]
-    tags: ["node-v*"]
+    tags: ["node-v*", "cli-v*"]
   pull_request:
 
 permissions:
@@ -27,8 +27,8 @@ jobs:
       - run: npm run build
 
   publish:
-    # Tag node-vX.Y.Z on main → publish @sitecommand/node X.Y.Z with npm provenance.
-    if: startsWith(github.ref, 'refs/tags/node-v')
+    # Tag node-vX.Y.Z → publish @sitecommand/node; tag cli-vX.Y.Z → publish the sitecommand CLI. With npm provenance.
+    if: startsWith(github.ref, 'refs/tags/node-v') || startsWith(github.ref, 'refs/tags/cli-v')
     needs: test
     runs-on: ubuntu-latest
     permissions:
@@ -41,9 +41,13 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
       - run: npm ci
+      - name: Which package
+        id: pkg
+        run: |
+          if [[ "$GITHUB_REF_NAME" == node-v* ]]; then echo "dir=packages/node" >> "$GITHUB_OUTPUT"; echo "prefix=node-v" >> "$GITHUB_OUTPUT"; else echo "dir=packages/cli" >> "$GITHUB_OUTPUT"; echo "prefix=cli-v" >> "$GITHUB_OUTPUT"; fi
       - name: Version matches the tag
-        run: test "node-v$(node -p "require('./packages/node/package.json').version")" = "${GITHUB_REF_NAME}"
-      - run: npm run build -w @sitecommand/node
-      - run: npm publish -w @sitecommand/node --provenance --access public
+        run: test "${{ steps.pkg.outputs.prefix }}$(node -p "require('./${{ steps.pkg.outputs.dir }}/package.json').version")" = "${GITHUB_REF_NAME}"
+      - run: npm run build -w ./${{ steps.pkg.outputs.dir }}
+      - run: npm publish -w ./${{ steps.pkg.outputs.dir }} --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -66,6 +66,8 @@ describe("connector", () => {
     expect(out.checks.cache.ok).toBe(false);
     expect(out.checks.broken.message).not.toContain("hunter2");
     expect(out.checks.memory.rss_mb).toBeGreaterThan(0);
+    // The first call has no event-loop samples yet: that must not count as a failure.
+    expect(out.checks.event_loop.ok).toBe(true);
   });
 
   it("lists and runs actions with validated input, and times out slow ones", async () => {

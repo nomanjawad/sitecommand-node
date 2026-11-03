@@ -175,7 +175,11 @@ export class Sitecommand {
     const mem = process.memoryUsage();
     const builtIn = {
       memory: { ok: true, rss_mb: Math.round(mem.rss / 1048576), heap_used_mb: Math.round(mem.heapUsed / 1048576), heap_total_mb: Math.round(mem.heapTotal / 1048576) },
-      event_loop: this.loop ? { ok: this.loop.mean / 1e6 < 200, mean_ms: Math.round(this.loop.mean / 1e6), p99_ms: Math.round(this.loop.percentile(99) / 1e6) } : { ok: true, message: "not measured" },
+      // No samples yet (the first call after start): not a failure, just not measured.
+      event_loop:
+        this.loop && Number.isFinite(this.loop.mean) && this.loop.count > 0
+          ? { ok: this.loop.mean / 1e6 < 200, mean_ms: Math.round(this.loop.mean / 1e6), p99_ms: Math.round(this.loop.percentile(99) / 1e6) }
+          : { ok: true, message: "measuring (ask again in a few seconds)" },
       process: { ok: true, uptime_s: Math.round(process.uptime()) },
     };
     const custom: Record<string, CheckResult & { ms: number }> = {};

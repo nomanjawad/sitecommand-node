@@ -1,0 +1,26 @@
+{
+  "name": "sitecommand",
+  "version": "0.1.0",
+  "description": "Connect a Node app to Sitecommand in one command: npx sitecommand connect. Detects Next.js, Express, Fastify, NestJS, Hono and plain Node; signs in with a code; adds the route and the secret; verifies.",
+  "license": "MIT",
+  "author": "Noman E Jawad",
+  "homepage": "https://github.com/nomanjawad/sitecommand-node#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/nomanjawad/sitecommand-node.git", "directory": "packages/cli" },
+  "keywords": ["sitecommand", "cli", "nextjs", "express", "fastify", "nestjs", "hono"],
+  "type": "module",
+  "bin": { "sitecommand": "./dist/cli.js" },
+  "files": ["dist", "README.md"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsup": "^8",
+    "typescript": "^5",
+    "vitest": "^3"
+  },
+  "publishConfig": { "access": "public", "provenance": true }
+}

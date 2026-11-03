@@ -31,7 +31,8 @@ export function fromPackageLock(json: string, direct: Set<string>): Dependency[]
   const lock = JSON.parse(json) as { packages?: Record<string, { version?: string; link?: boolean }> };
   const out = new Map<string, Dependency>();
   for (const [path, info] of Object.entries(lock.packages ?? {})) {
-    if (!path || !info.version || info.link) continue;
+    // Only installed packages: the root ("") and linked local folders are not dependencies.
+    if (!path || !info.version || info.link || !path.includes("node_modules/")) continue;
     const name = path.slice(path.lastIndexOf("node_modules/") + "node_modules/".length);
     if (!name) continue;
     out.set(`${name}@${info.version}`, { name, version: info.version, direct: direct.has(name) && !path.includes("node_modules/", path.indexOf("node_modules/") + 1) });
