@@ -1,0 +1,12 @@
+{
+  "name": "sitecommand-node-monorepo",
+  "private": true,
+  "description": "Sitecommand connector for Node apps (@sitecommand/node) and its CLI (sitecommand).",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "engines": { "node": ">=18.18" }
+}

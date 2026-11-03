@@ -1,0 +1,92 @@
+{
+  "name": "@sitecommand/node",
+  "version": "0.1.0",
+  "description": "Connect a Node app to Sitecommand: signed, read-only health, errors, dependencies and developer-registered actions. Next.js, Express, Fastify, NestJS, Hono and any Node or Fetch server.",
+  "license": "MIT",
+  "author": "Noman E Jawad",
+  "homepage": "https://github.com/nomanjawad/sitecommand-node#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nomanjawad/sitecommand-node.git",
+    "directory": "packages/node"
+  },
+  "keywords": [
+    "sitecommand",
+    "monitoring",
+    "health",
+    "nextjs",
+    "express",
+    "fastify",
+    "nestjs",
+    "hono",
+    "mcp"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.18"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./next": {
+      "types": "./dist/adapters/next.d.ts",
+      "import": "./dist/adapters/next.js",
+      "require": "./dist/adapters/next.cjs"
+    },
+    "./express": {
+      "types": "./dist/adapters/express.d.ts",
+      "import": "./dist/adapters/express.js",
+      "require": "./dist/adapters/express.cjs"
+    },
+    "./fastify": {
+      "types": "./dist/adapters/fastify.d.ts",
+      "import": "./dist/adapters/fastify.js",
+      "require": "./dist/adapters/fastify.cjs"
+    },
+    "./hono": {
+      "types": "./dist/adapters/hono.d.ts",
+      "import": "./dist/adapters/hono.js",
+      "require": "./dist/adapters/hono.cjs"
+    },
+    "./nest": {
+      "types": "./dist/adapters/nest.d.ts",
+      "import": "./dist/adapters/nest.js",
+      "require": "./dist/adapters/nest.cjs"
+    },
+    "./http": {
+      "types": "./dist/adapters/http.d.ts",
+      "import": "./dist/adapters/http.js",
+      "require": "./dist/adapters/http.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22",
+    "express": "^5.3.0",
+    "fastify": "^5.12.8",
+    "hono": "^4.13.16",
+    "tsup": "^8",
+    "typescript": "^5",
+    "vitest": "^3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

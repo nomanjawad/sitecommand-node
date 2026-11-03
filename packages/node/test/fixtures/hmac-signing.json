@@ -1,0 +1,26 @@
+{
+  "site_secret": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "note": "HMAC key is the shared site secret as a UTF-8 string (the 128-char hex value), not decoded bytes. Both hub and plugin must match this file.",
+  "cases": [
+    {
+      "name": "get-info",
+      "timestamp": "1757300000",
+      "method": "GET",
+      "path": "/wp-json/wpmcp/v1/info",
+      "raw_body": "",
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "string_to_sign": "1757300000\nGET\n/wp-json/wpmcp/v1/info\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "signature": "ca28a5b9c769c4fbc23c440188c8183957df6e4c188379f4a7cf892954fa52ec"
+    },
+    {
+      "name": "post-file-edit",
+      "timestamp": "1757300000",
+      "method": "POST",
+      "path": "/wp-json/wpmcp/v1/files/edit",
+      "raw_body": "{\"path\":\"themes/example/style.css\",\"old\":\"Hero\",\"new\":\"Welcome\"}",
+      "body_sha256": "f9d19192b51945f5447a7c4ffd1dc1da7d10f82828de30081cd91d105f05b425",
+      "string_to_sign": "1757300000\nPOST\n/wp-json/wpmcp/v1/files/edit\nf9d19192b51945f5447a7c4ffd1dc1da7d10f82828de30081cd91d105f05b425",
+      "signature": "4d64616e8675000bf705f858d2c93fbbbf3c8f7ef70021c05009ccc41373b4ba"
+    }
+  ]
+}
