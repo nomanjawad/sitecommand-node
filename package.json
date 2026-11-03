@@ -8,5 +8,5 @@
     "test": "npm test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
-  "engines": { "node": ">=18.18" }
+  "engines": { "node": ">=20" }
 }

@@ -17,7 +17,13 @@ beforeAll(async () => {
   await new Promise<void>((r) => server.listen(0, r));
   port = (server.address() as { port: number }).port;
 });
-afterAll(() => new Promise<void>((r) => server.close(() => r())));
+afterAll(
+  () =>
+    new Promise<void>((r) => {
+      server.closeAllConnections?.();
+      server.close(() => r());
+    }),
+);
 
 describe("node:http adapter (used by Express, Fastify and NestJS)", () => {
   it("passes other paths to the app", async () => {

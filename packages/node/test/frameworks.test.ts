@@ -32,7 +32,13 @@ describe("Express", () => {
     });
     app.use(sitecommandErrors(sc));
     const server = app.listen(0);
-    closers.push(() => new Promise((r) => server.close(() => r())));
+    closers.push(
+      () =>
+        new Promise((r) => {
+          server.closeAllConnections?.();
+          server.close(() => r());
+        }),
+    );
     const port = (server.address() as { port: number }).port;
     expect(await (await fetch(`http://127.0.0.1:${port}/`)).text()).toBe("home");
     await fetch(`http://127.0.0.1:${port}/boom`);
