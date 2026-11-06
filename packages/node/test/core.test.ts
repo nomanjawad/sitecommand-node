@@ -109,6 +109,17 @@ describe("helpers", () => {
     expect(validateInput({ a: "number" }, { a: Number.NaN }).ok).toBe(false);
     expect(validateInput({}, [] as unknown).ok).toBe(false);
   });
+  it("keeps file paths readable but hides the server layout", () => {
+    const at = `Error: boom\n    at handler (${process.cwd()}/node_modules/express/lib/router/layer.js:95:5)\n    at /home/deploy/releases/app/server/index.js:12:3`;
+    const m = mask(at);
+    expect(m).toContain("./node_modules/express/lib/router/layer.js:95:5");
+    expect(m).toContain("~/releases/app/server/index.js:12:3");
+    expect(m).not.toContain(process.cwd());
+    expect(m).not.toContain("/home/deploy");
+  });
+  it("still masks random base64 blobs", () => {
+    expect(mask("key Zm9vYmFyQmF6UXV4MTIzNDU2Nzg5MGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6")).toBe("key ***");
+  });
   it("masks common secret shapes", () => {
     const m = mask("postgres://admin:pw@db:5432/x Bearer abcdefghijklmnop sk_live_abcdefghijklmnop token=abc123 AKIAABCDEFGHIJKLMNOP me@x.io");
     for (const s of ["admin:pw", "abcdefghijklmnop", "sk_live_", "abc123", "AKIAABCDEFGHIJKLMNOP", "me@x.io"]) expect(m).not.toContain(s);
